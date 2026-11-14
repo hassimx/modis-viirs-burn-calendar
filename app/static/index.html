@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Burn Calendar · Central Asia</title>
+<meta name="description" content="Harmonized MODIS + VIIRS active-fire burn calendar for Kazakhstan and Central Asia, 2001-present (NASA FIRMS).">
+<link rel="stylesheet" href="/static/vendor/leaflet.css">
+<link rel="stylesheet" href="/static/vendor/leaflet.draw.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="dot" aria-hidden="true"></span>
+    <div>
+      <h1>Burn Calendar</h1>
+      <p>One fire record for Central Asia, 2001 to today: MODIS and VIIRS hotspots harmonized into a single VIIRS-equivalent series.</p>
+    </div>
+  </div>
+  <div class="meta" id="meta">loading…</div>
+</header>
+
+<main class="layout">
+  <aside class="panel controls" aria-label="Controls">
+    <section>
+      <h2>1 · Area</h2>
+      <label for="region">Region</label>
+      <select id="region"></select>
+      <p class="hint">…or draw a rectangle, polygon or circle on the map, or click a region.</p>
+      <details id="pointBox">
+        <summary>Point + radius</summary>
+        <div class="row3">
+          <label>Lat<input id="lat" type="number" step="0.01" placeholder="51.17"></label>
+          <label>Lon<input id="lon" type="number" step="0.01" placeholder="71.45"></label>
+          <label>km<input id="rad" type="number" step="1" value="50"></label>
+        </div>
+        <button id="applyPoint" class="secondary">Use this circle</button>
+      </details>
+      <div class="area-label" id="areaLabel">Kazakhstan</div>
+    </section>
+
+    <section>
+      <h2>2 · Period</h2>
+      <div class="row2">
+        <label>From<input id="start" type="month"></label>
+        <label>To<input id="end" type="month"></label>
+      </div>
+      <div class="chips">
+        <button data-range="all">All years</button>
+        <button data-range="12">Last 12 mo</button>
+        <button data-range="viirs">VIIRS era</button>
+        <button data-range="modis">MODIS era</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>3 · Display</h2>
+      <label for="cscale">Colour scale (colour-blind safe)</label>
+      <select id="cscale">
+        <option value="Viridis">viridis</option>
+        <option value="Cividis">cividis</option>
+        <option value="Magma">magma</option>
+        <option value="Inferno">inferno</option>
+      </select>
+      <label class="check"><input type="checkbox" id="logscale" checked> Logarithmic colour scale</label>
+      <label for="focus">Month to assess</label>
+      <input id="focus" type="month">
+    </section>
+
+    <button id="go" class="primary">Update</button>
+
+    <section>
+      <h2>Download</h2>
+      <div class="dl">
+        <a id="dlPoints" href="#">Points CSV</a>
+        <a id="dlAgg" href="#">Monthly aggregates CSV</a>
+        <a id="dlAnom" href="#">Anomalies CSV</a>
+      </div>
+      <p class="hint">PNG: use the camera icon on any chart.</p>
+    </section>
+  </aside>
+
+  <section class="content">
+    <div class="kpis" id="kpis" aria-live="polite"></div>
+
+    <div class="grid2">
+      <article class="panel">
+        <header class="card-h"><h3>Burn calendar</h3><span class="sub" id="calSub">fire detections per month, VIIRS S-NPP-equivalent</span></header>
+        <div id="calendar" class="chart tall"></div>
+        <p class="note">▲ / ▼ mark anomalously high / low months (outside the IQR fence or |z| ≥ 2 against the same calendar month). Years before 2012 are MODIS converted to VIIRS-equivalent; from 2012 the series is VIIRS S-NPP.</p>
+      </article>
+      <article class="panel">
+        <header class="card-h"><h3>Fire detections on the map</h3><span class="sub" id="mapSub"></span></header>
+        <div id="map"></div>
+        <div class="legend" id="mapLegend"></div>
+      </article>
+    </div>
+
+    <div class="grid2">
+      <article class="panel">
+        <header class="card-h"><h3>Monthly anomalies</h3><span class="sub">selected period vs multi-year median and IQR</span></header>
+        <div class="focus" id="focusBox"></div>
+        <div id="anom" class="chart"></div>
+      </article>
+      <article class="panel">
+        <header class="card-h"><h3>Annual totals and trend</h3><span class="sub" id="trendSub"></span></header>
+        <div id="annual" class="chart"></div>
+      </article>
+    </div>
+
+    <article class="panel method">
+      <header class="card-h"><h3>How the series is harmonized</h3></header>
+      <div class="method-grid">
+        <div>
+          <p>Hotspots from NASA FIRMS (MODIS C6.1 Terra/Aqua, VIIRS 375 m S-NPP and NOAA-20) are filtered (MODIS confidence ≥ 30, VIIRS nominal/high, static industrial sources removed), counted on a 0.25° grid per month, and MODIS counts are converted to VIIRS S-NPP-equivalent counts with a model calibrated where both sensors overlap.</p>
+          <p>Three models were compared with year-blocked cross-validation (train 2012–2018, test 2019–2025). The lowest error model is used for 2001–2011.</p>
+        </div>
+        <table id="cvTable"></table>
+      </div>
+    </article>
+  </section>
+</main>
+<footer class="foot">Data: NASA FIRMS (MODIS C6.1 MCD14, VIIRS 375 m VNP14IMG / VJ114IMG). Boundaries: Natural Earth. Counts are satellite detections, not burned area.</footer>
+
+<script src="/static/vendor/leaflet.js"></script>
+<script src="/static/vendor/leaflet.draw.js"></script>
+<script src="/static/vendor/plotly.min.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

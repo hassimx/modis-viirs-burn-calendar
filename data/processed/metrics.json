@@ -1,0 +1,88 @@
+{
+  "train_years": [
+    2012,
+    2018
+  ],
+  "test_years": [
+    2019,
+    2025
+  ],
+  "grid_deg": 0.25,
+  "results": {
+    "monthly_ratio": {
+      "cell_month_MAE": 6.83737749919556,
+      "cell_month_RMSE": 16.583237226104686,
+      "cell_month_r": 0.8618888524310024,
+      "cell_month_bias_pct": -9.030606415839383,
+      "regional_month_MAE": 919.1246647159685,
+      "regional_month_r": 0.9847523079919159,
+      "regional_month_r_log": 0.9851677385213283,
+      "annual_abs_pct_error": 12.841613470774119,
+      "n_cell_months": 61802
+    },
+    "loglinear_seasonal": {
+      "cell_month_MAE": 7.28390641163162,
+      "cell_month_RMSE": 22.33654598573589,
+      "cell_month_r": 0.849614492314931,
+      "cell_month_bias_pct": -2.4029770921814704,
+      "regional_month_MAE": 1324.6615868603262,
+      "regional_month_r": 0.9759573368201528,
+      "regional_month_r_log": 0.9891787962074448,
+      "annual_abs_pct_error": 14.028697759745976,
+      "n_cell_months": 61802
+    },
+    "cell_seasonal_ratio": {
+      "cell_month_MAE": 6.74649111945216,
+      "cell_month_RMSE": 16.27135804088314,
+      "cell_month_r": 0.8667230322944353,
+      "cell_month_bias_pct": -9.08928060404873,
+      "regional_month_MAE": 905.6461157893223,
+      "regional_month_r": 0.9848886341775115,
+      "regional_month_r_log": 0.9849343153219282,
+      "annual_abs_pct_error": 12.670810408359493,
+      "n_cell_months": 61802,
+      "alpha": 1000
+    },
+    "no_adjustment": {
+      "cell_month_MAE": 8.414064269764733,
+      "cell_month_RMSE": 26.140513184813074,
+      "cell_month_r": 0.860336156832576,
+      "cell_month_bias_pct": -72.828028610601,
+      "regional_month_MAE": 5887.357142857143,
+      "regional_month_r": 0.9709768604708545,
+      "regional_month_r_log": 0.9799659369904503,
+      "annual_abs_pct_error": 73.78404869525161,
+      "n_cell_months": 61802
+    }
+  },
+  "best_model": "cell_seasonal_ratio",
+  "terra_only_factor": {
+    "1": 3.4416,
+    "2": 3.2332,
+    "3": 2.4618,
+    "4": 2.1357,
+    "5": 1.917,
+    "6": 1.7887,
+    "7": 1.8069,
+    "8": 1.9166,
+    "9": 2.0766,
+    "10": 2.371,
+    "11": 2.9256,
+    "12": 2.9172
+  },
+  "last_date": "2026-11-15",
+  "monthly_ratio_k": {
+    "1": 2.9094,
+    "2": 2.9233,
+    "3": 2.7438,
+    "4": 3.1114,
+    "5": 3.4124,
+    "6": 4.646,
+    "7": 3.92,
+    "8": 3.9794,
+    "9": 3.8654,
+    "10": 3.1813,
+    "11": 3.3804,
+    "12": 3.9559
+  }
+}

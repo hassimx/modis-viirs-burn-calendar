@@ -1,0 +1,6 @@
+data/raw
+notebooks
+docs
+submission
+.git
+__pycache__

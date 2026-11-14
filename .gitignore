@@ -1,6 +1,7 @@
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+submission/slides.html
 .env
 data/raw/
 .venv/

@@ -41,9 +41,9 @@ event: NASA Space Apps Challenge 2026 · Harmonization of MODIS and VIIRS Hot Sp
 
 * Terra-only months (before Aqua, 2002) scaled by seasonal Terra+Aqua/Terra factor
 * Three models calibrated on the 2012–2025 overlap:
-  1. seasonal ratio  V = k<sub>m</sub>·M
-  2. seasonal log-linear regression
-  3. **cell × season ratio** with empirical-Bayes shrinkage  V = k<sub>m</sub>·r<sub>cell</sub>·M
+    1. seasonal ratio  V = k<sub>m</sub>·M
+    2. seasonal log-linear regression
+    3. **cell × season ratio** with empirical-Bayes shrinkage  V = k<sub>m</sub>·r<sub>cell</sub>·M
 * Applied to 2001–2011; from 2012 the series is VIIRS S-NPP (NOAA-20 fills S-NPP outages)
 
 ![](../docs/figures/seasonal_ratio.png)

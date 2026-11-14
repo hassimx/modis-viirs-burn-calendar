@@ -1,6 +1,6 @@
 # Burn Calendar: harmonized MODIS + VIIRS fire record for Central Asia
 
-**Live app:** LIVE_URL
+**Live app:** https://burn-calendar.onrender.com (free tier: the first request after idle can take ~1 minute to wake up)
 
 NASA Space Apps Challenge 2026 · *Harmonization of MODIS and VIIRS Hot Spots*
 

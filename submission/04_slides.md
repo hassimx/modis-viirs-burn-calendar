@@ -10,7 +10,7 @@ event: NASA Space Apps Challenge 2026 · Harmonization of MODIS and VIIRS Hot Sp
 
 * Harmonized MODIS + VIIRS active-fire calendar for Kazakhstan, Kyrgyzstan, Uzbekistan, Tajikistan, Turkmenistan
 * Any area · any period · anomalies · trend · downloads
-* Live app: LIVE_URL
+* Live app: https://burn-calendar.onrender.com
 
 ![](../docs/figures/app_overview.png)
 

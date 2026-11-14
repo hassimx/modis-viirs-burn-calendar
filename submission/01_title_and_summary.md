@@ -14,3 +14,8 @@ Emergency services, scientists, farmers and foresters can draw any area and inst
 normally burns, whether this month is abnormal against a 25-year baseline, the long-term trend, and
 the individual hotspots, and download everything as CSV or PNG. For Kazakhstan the harmonized record
 reveals a 7 %-per-year decline in fire activity since the early 2000s that the raw data hide.
+
+# Links
+
+* Live app: https://burn-calendar.onrender.com
+* Code: https://github.com/hassimx/modis-viirs-burn-calendar

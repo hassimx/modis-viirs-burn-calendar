@@ -218,7 +218,7 @@
     Plotly.react("annual", traces, {
       ...baseLayout, barmode: "overlay", legend: { orientation: "h", y: -0.16, x: 0, font: { size: 11 } },
       margin: { ...baseLayout.margin, t: 14, b: 96 },
-      yaxis: { title: { text: "detections / year (VIIRS-equivalent)" }, gridcolor: "#eee", rangemode: "tozero" },
+      yaxis: { title: { text: "detections / year" }, gridcolor: "#eee", rangemode: "tozero" },
       xaxis: { dtick: 2 },
     }, plotCfg("annual_totals"));
   }

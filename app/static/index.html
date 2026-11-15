@@ -8,7 +8,8 @@
 <link rel="stylesheet" href="/static/vendor/leaflet.css">
 <link rel="stylesheet" href="/static/vendor/leaflet.draw.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
@@ -88,12 +89,12 @@
 
     <div class="grid2">
       <article class="panel">
-        <header class="card-h"><h3>Burn calendar</h3><span class="sub" id="calSub">fire detections per month, VIIRS S-NPP-equivalent</span></header>
+        <header class="card-h"><h3>Burn calendar</h3><span class="sub" id="calSub">hotspot detections per month, VIIRS S-NPP-equivalent</span></header>
         <div id="calendar" class="chart tall"></div>
         <p class="note">▲ / ▼ mark anomalously high / low months (outside the IQR fence or |z| ≥ 2 against the same calendar month). Years before 2012 are MODIS converted to VIIRS-equivalent; from 2012 the series is VIIRS S-NPP.</p>
       </article>
       <article class="panel">
-        <header class="card-h"><h3>Fire detections on the map</h3><span class="sub" id="mapSub"></span></header>
+        <header class="card-h"><h3>Hotspot detections on the map</h3><span class="sub" id="mapSub"></span></header>
         <div id="map"></div>
         <div class="legend" id="mapLegend"></div>
       </article>
@@ -123,7 +124,7 @@
     </article>
   </section>
 </main>
-<footer class="foot">Data: NASA FIRMS (MODIS C6.1 MCD14, VIIRS 375 m VNP14IMG / VJ114IMG). Boundaries: Natural Earth. Counts are satellite detections, not burned area.</footer>
+<footer class="foot">Data: NASA FIRMS (MODIS C6.1 MCD14, VIIRS 375 m VNP14IMG / VJ114IMG). Boundaries: Natural Earth. Counts are satellite hotspot detections, not the number of fires or burned area.</footer>
 
 <script src="/static/vendor/leaflet.js"></script>
 <script src="/static/vendor/leaflet.draw.js"></script>

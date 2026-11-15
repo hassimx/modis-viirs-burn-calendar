@@ -275,14 +275,19 @@ def stats(request: Request):
     sel = s[(s.period >= start) & (s.period <= end)]
     ann = sel.groupby("year")["value"].sum()
     complete = ann[ann.index < LAST.year] if len(ann[ann.index < LAST.year]) >= 3 else ann
-    trend = None
-    if len(complete) >= 3:
-        slope, icpt, p = theil_sen(complete.index, complete.values)
-        mean = complete.mean()
-        trend = {"slope_per_year": round(slope, 1), "pct_per_year": round(100 * slope / mean, 2) if mean else None,
-                 "p_value": round(p, 4), "years": [int(complete.index.min()), int(complete.index.max())],
-                 "method": "Theil-Sen slope, Mann-Kendall test on annual totals",
-                 "line": [[int(y), round(icpt + slope * y, 1)] for y in (complete.index.min(), complete.index.max())]}
+    def _trend(series):
+        if len(series) < 3:
+            return None
+        slope, icpt, p = theil_sen(series.index, series.values)
+        mean = series.mean()
+        return {"slope_per_year": round(slope, 1), "pct_per_year": round(100 * slope / mean, 2) if mean else None,
+                "p_value": round(p, 4), "years": [int(series.index.min()), int(series.index.max())],
+                "method": "Theil-Sen slope, Mann-Kendall test on annual totals",
+                "line": [[int(y), round(icpt + slope * y, 1)] for y in (series.index.min(), series.index.max())]}
+
+    trend = _trend(complete)
+    # Robustness check: the same trend on observed VIIRS years only (2012+), no harmonization model involved.
+    trend_viirs = _trend(complete[complete.index >= 2012]) if complete.index.min() < 2012 else None
     by_month = sel.groupby("month")["value"].mean()
     raw = raw_counts(geom, start, end)
     top_m = sel.nlargest(5, "value")
@@ -296,6 +301,7 @@ def stats(request: Request):
         "mean_by_calendar_month": {MONTH_NAMES[m - 1]: round(v, 1) for m, v in by_month.items()},
         "annual": [{"year": int(y), "value": round(v, 1), "partial": bool(y == LAST.year)} for y, v in ann.items()],
         "trend": trend,
+        "trend_viirs_only": trend_viirs,
     }
 
 

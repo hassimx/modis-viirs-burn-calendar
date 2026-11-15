@@ -1,0 +1,16 @@
+name: keep-alive
+
+# Render's free tier sleeps after ~15 minutes without traffic and the first
+# request then takes about a minute. This pings the health endpoint so the
+# app stays warm for judges and users.
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping /healthz
+        run: curl -fsS --retry 3 --retry-delay 20 --max-time 120 https://burn-calendar.onrender.com/healthz

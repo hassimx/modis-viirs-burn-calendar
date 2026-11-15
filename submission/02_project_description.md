@@ -54,7 +54,7 @@ The app runs in a small Docker container on a free cloud tier.
 * **Comparable baseline.** Anomalies of this year are measured against 25 years instead of 13, and
   against numbers in the same unit.
 * **Hidden trends become visible.** In Kazakhstan, harmonized fire detections fell from
-  225 000–390 000 per year in 2002–2006 to 19 000–64 000 in 2022–2025 (−7 % per year, p < 0.001).
+  225 000–390 000 per year in 2002–2006 to 19 000–64 000 in 2022–2025 (−7 % per year, p < 0.001). The decline is not an artifact of the model: observed VIIRS years alone (2012–2025) give −7.6 % per year (p ≈ 0.05), and the app shows both trends side by side.
   Without harmonization the 2012 sensor jump masks this decline.
 * **Local answers.** A fire officer can draw a district or a 30 km radius around a village and get its
   own fire calendar, not a national average.

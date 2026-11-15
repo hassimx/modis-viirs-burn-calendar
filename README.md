@@ -1,6 +1,6 @@
 # Burn Calendar: harmonized MODIS + VIIRS fire record for Central Asia
 
-**Live app:** https://burn-calendar.onrender.com (free tier: the first request after idle can take ~1 minute to wake up)
+**Live app:** https://burn-calendar.onrender.com (free tier; a scheduled GitHub Action pings it every 10 minutes to keep it awake, but if it was asleep the first load can take up to a minute)
 
 NASA Space Apps Challenge 2026 · *Harmonization of MODIS and VIIRS Hot Spots*
 
@@ -29,7 +29,7 @@ with a 2000s baseline (MODIS) gives meaningless anomalies.
 | Period | Any month range 2001 – today (presets: all years, last 12 months, MODIS era, VIIRS era) |
 | Burn calendar | Months × years heat map of harmonized fire counts, anomalous months marked ▲/▼, sensor change line at 2012 |
 | Anomalies | Each month vs. the multi-year median, mean and IQR of the same calendar month; z-score; "month to assess" summary card; annual anomalies |
-| Key indicators | Fires in period (harmonized and raw by sensor), peak month and year, fire-season peak, Theil–Sen trend with Mann–Kendall p-value |
+| Key indicators | Hotspot detections in period (harmonized and raw by sensor), peak month and year, fire-season peak, Theil–Sen trend with Mann–Kendall p-value, plus a VIIRS-only trend (2012+) as a robustness check |
 | Map | Individual hotspots for the selected area and period, coloured by sensor (random sample of 25 000 when larger) |
 | Accessibility | Colour-blind-safe scales (viridis, cividis, magma, inferno), log/linear colour scale, Okabe–Ito sensor colours, legends on every chart |
 | Downloads | Points CSV (all detections in the area), monthly aggregates CSV, anomalies CSV, PNG of any chart |
@@ -94,7 +94,7 @@ area. A month is *high/low* when it is outside Q1 − 1.5·IQR … Q3 + 1.5·IQR
 
 **What it shows.** In Kazakhstan, harmonized fire detections fell from 225 000–390 000 per year in
 2002–2006 to 19 000–64 000 in 2022–2025 (Theil–Sen trend −7 % per year, p < 0.001), with spring
-(April) and late-summer peaks. Without harmonization this decline would be hidden by the jump in 2012.
+(April) and late-summer peaks. Without harmonization this decline would be hidden by the jump in 2012. The decline does not depend on the harmonization model: on observed VIIRS years alone (2012–2025) the trend is −7.6 % per year (Mann–Kendall p ≈ 0.05); the app shows both trends side by side.
 
 ## Run it
 

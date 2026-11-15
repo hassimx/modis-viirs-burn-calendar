@@ -18,7 +18,7 @@
   });
   const baseLayout = {
     margin: { l: 52, r: 16, t: 10, b: 40 }, paper_bgcolor: "#fff", plot_bgcolor: "#fff",
-    font: { family: "IBM Plex Sans, sans-serif", size: 12, color: "#1d1f22" },
+    font: { family: "Onest, system-ui, sans-serif", size: 12, color: "#1b1d21" },
   };
 
   let META = null;
@@ -38,9 +38,9 @@
   map.addControl(new L.Control.Draw({
     position: "topright",
     draw: { polyline: false, marker: false, circlemarker: false,
-            rectangle: { shapeOptions: { color: "#c2410c" } },
-            polygon: { shapeOptions: { color: "#c2410c" } },
-            circle: { shapeOptions: { color: "#c2410c" } } },
+            rectangle: { shapeOptions: { color: "#d9480f" } },
+            polygon: { shapeOptions: { color: "#d9480f" } },
+            circle: { shapeOptions: { color: "#d9480f" } } },
     edit: { featureGroup: drawn, edit: false },
   }));
   map.on(L.Draw.Event.CREATED, (e) => {
@@ -70,17 +70,17 @@
     if (area.region != null && regionsLayer) {
       regionsLayer.eachLayer((l) => {
         if (String(l.feature.properties.id) === String(area.region)) {
-          L.geoJSON(l.feature, { style: { color: "#c2410c", weight: 2, fill: false } }).addTo(aoiLayer);
+          L.geoJSON(l.feature, { style: { color: "#d9480f", weight: 2, fill: false } }).addTo(aoiLayer);
         }
       });
     } else if (area.country && regionsLayer) {
       regionsLayer.eachLayer((l) => {
         if (l.feature.properties.iso === area.country) {
-          L.geoJSON(l.feature, { style: { color: "#c2410c", weight: 1.5, fill: false } }).addTo(aoiLayer);
+          L.geoJSON(l.feature, { style: { color: "#d9480f", weight: 1.5, fill: false } }).addTo(aoiLayer);
         }
       });
     } else if (area.lat) {
-      L.circle([+area.lat, +area.lon], { radius: area.radius_km * 1000, color: "#c2410c", fill: false }).addTo(aoiLayer);
+      L.circle([+area.lat, +area.lon], { radius: area.radius_km * 1000, color: "#d9480f", fill: false }).addTo(aoiLayer);
     }
     if (aoiLayer.getLayers().length) map.fitBounds(aoiLayer.getBounds(), { padding: [20, 20], maxZoom: 9 });
     else if (drawn.getLayers().length) map.fitBounds(drawn.getBounds(), { padding: [20, 20], maxZoom: 9 });
@@ -116,7 +116,7 @@
       return [cal.z[i][j], src[i][j], f ? f.flag : "", f ? f.z : "", f ? f.median : ""];
     }));
     const maxv = Math.max(1, ...cal.z.flat().filter((v) => v != null));
-    let colorbar = { title: { text: "fires / month", side: "right" }, thickness: 12, outlinewidth: 0 };
+    let colorbar = { title: { text: "detections / month", side: "right" }, thickness: 12, outlinewidth: 0 };
     if (log) {
       const ticks = [0, 1, 10, 100, 1000, 10000, 100000, 1000000].filter((t) => t <= maxv * 1.01);
       colorbar = { ...colorbar, tickvals: ticks.map((t) => Math.log10(1 + t)), ticktext: ticks.map((t) => fmt(t)) };
@@ -124,7 +124,7 @@
     const heat = {
       type: "heatmap", x: MONTHS, y: cal.years.map(String), z, customdata: custom,
       colorscale: $("cscale").value, colorbar, xgap: 1, ygap: 1, zmin: 0,
-      hovertemplate: "<b>%{x} %{y}</b><br>%{customdata[0]:,.0f} fires (VIIRS-equivalent)<br>source: %{customdata[1]}<br>anomaly: %{customdata[2]} (z=%{customdata[3]})<br>median for month: %{customdata[4]:,.0f}<extra></extra>",
+      hovertemplate: "<b>%{x} %{y}</b><br>%{customdata[0]:,.0f} detections (VIIRS-equivalent)<br>source: %{customdata[1]}<br>anomaly: %{customdata[2]} (z=%{customdata[3]})<br>median for month: %{customdata[4]:,.0f}<extra></extra>",
     };
     const mk = (kind, sym, name) => {
       const pts = anom.months.filter((m) => m.flag === kind);
@@ -136,13 +136,13 @@
     if (cal.years.includes(2011) && cal.years.includes(2012)) {
       const yb = cal.years.indexOf(2012) - 0.5;
       shapes.push({ type: "line", xref: "paper", x0: -0.02, x1: 1, y0: yb, y1: yb,
-                    yref: "y", line: { color: "#c2410c", width: 2, dash: "dot" } });
+                    yref: "y", line: { color: "#d9480f", width: 2, dash: "dot" } });
     }
     const n = cal.years.length;
     $("calendar").style.height = `${Math.max(260, Math.min(640, 40 + n * 19))}px`;
     Plotly.react("calendar", [heat, mk("high", "triangle-up", "high"), mk("low", "triangle-down", "low")], {
       ...baseLayout, margin: { l: 48, r: 10, t: 28, b: 10 },
-      yaxis: { range: [n - 0.5, -0.5], type: "category", tickfont: { family: "IBM Plex Mono", size: 11 } },
+      yaxis: { range: [n - 0.5, -0.5], type: "category", tickfont: { family: "Onest, system-ui, sans-serif", size: 11 } },
       xaxis: { side: "top", type: "category" }, shapes,
     }, plotCfg("burn_calendar"));
   }
@@ -157,13 +157,13 @@
         fillcolor: "rgba(120,120,120,0.18)", name: "IQR (Q1–Q3)", hoverinfo: "skip" },
       { x, y: ms.map((m) => m.value), type: "bar", name: "observed", marker: { color: ms.map((m) => col(m.flag)) },
         customdata: ms.map((m) => [m.flag, m.z, m.median]),
-        hovertemplate: "<b>%{x}</b><br>%{y:,.0f} fires<br>median %{customdata[2]:,.0f}<br>z = %{customdata[1]} · %{customdata[0]}<extra></extra>" },
+        hovertemplate: "<b>%{x}</b><br>%{y:,.0f} detections<br>median %{customdata[2]:,.0f}<br>z = %{customdata[1]} · %{customdata[0]}<extra></extra>" },
       { x, y: ms.map((m) => m.median), type: "scatter", mode: "lines", name: "median", line: { color: "#1d1f22", width: 1.5, dash: "dot" } },
       { x, y: ms.map((m) => m.mean), type: "scatter", mode: "lines", name: "mean", line: { color: "#7a5195", width: 1 }, visible: "legendonly" },
     ];
     Plotly.react("anom", traces, {
       ...baseLayout, barmode: "overlay", bargap: 0.15, legend: { orientation: "h", y: 1.12, x: 0 },
-      yaxis: { title: { text: "fires / month" }, rangemode: "tozero", gridcolor: "#eee" },
+      yaxis: { title: { text: "detections / month" }, rangemode: "tozero", gridcolor: "#eee" },
       xaxis: { type: "category", tickangle: -45, nticks: 20 },
       margin: { ...baseLayout.margin, t: 30, b: 60 },
     }, plotCfg("monthly_anomalies"));
@@ -173,7 +173,7 @@
       const cls = s.flag.split(" ")[0];
       const [yy, mm] = s.period.split("-");
       const ratio = s.median > 0 ? `${fmt((s.value / s.median) * 100)}% of median` : "median is 0";
-      $("focusBox").innerHTML = `<b>${MONTHS[+mm - 1]} ${yy}</b>${s.partial ? " (month in progress)" : ""}: <b>${fmt(s.value)}</b> fires vs median <b>${fmt(s.median)}</b> (IQR ${fmt(s.q1)}–${fmt(s.q3)}), ${ratio}, z = <b>${s.z > 0 ? "+" : ""}${s.z}</b> <span class="flag ${cls}">${s.flag}</span>`;
+      $("focusBox").innerHTML = `<b>${MONTHS[+mm - 1]} ${yy}</b>${s.partial ? " (month in progress)" : ""}: <b>${fmt(s.value)}</b> detections vs median <b>${fmt(s.median)}</b> (IQR ${fmt(s.q1)}–${fmt(s.q3)}), ${ratio}, z = <b>${s.z > 0 ? "+" : ""}${s.z}</b> <span class="flag ${cls}">${s.flag}</span>`;
     } else {
       $("focusBox").textContent = "Pick a month to assess.";
     }
@@ -182,22 +182,43 @@
   function drawAnnual(st, an) {
     const yrs = an.years;
     const col = (f) => ({ high: "#b2182b", low: "#2166ac", "above normal": "#ef8a62", "below normal": "#67a9cf" }[f] || "#9aa0a6");
-    const traces = [{
-      type: "bar", x: yrs.map((y) => y.year), y: yrs.map((y) => y.value), name: "annual total",
+    // legend-only swatches: bar outline = sensor era, bar fill = anomaly class
+    const sw = (name, fill, line) => ({ type: "bar", x: [null], y: [null], name, hoverinfo: "skip",
+      marker: { color: fill, line: { color: line, width: 2 } } });
+    const traces = [
+      sw("MODIS era (harmonized)", "#ffffff", "#E69F00"),
+      sw("VIIRS era (observed)", "#ffffff", "#0072B2"),
+      sw("high", "#b2182b", "#b2182b"),
+      sw("above normal", "#ef8a62", "#ef8a62"),
+      sw("normal", "#9aa0a6", "#9aa0a6"),
+      sw("below normal", "#67a9cf", "#67a9cf"),
+      sw("low", "#2166ac", "#2166ac"),
+    ];
+    traces.push({
+      type: "bar", x: yrs.map((y) => y.year), y: yrs.map((y) => y.value), name: "annual total", showlegend: false,
       marker: { color: yrs.map((y) => col(y.flag)), opacity: yrs.map((y) => (y.partial ? 0.45 : 1)),
                 line: { color: yrs.map((y) => (y.year < 2012 ? "#E69F00" : "#0072B2")), width: 1.5 } },
       customdata: yrs.map((y) => [y.flag, y.z, y.partial ? " (year in progress)" : ""]),
-      hovertemplate: "<b>%{x}</b>%{customdata[2]}<br>%{y:,.0f} fires<br>z = %{customdata[1]} · %{customdata[0]}<extra></extra>",
-    }];
+      hovertemplate: "<b>%{x}</b>%{customdata[2]}<br>%{y:,.0f} detections<br>z = %{customdata[1]} · %{customdata[0]}<extra></extra>",
+    });
+    const sgn = (v) => (v > 0 ? "+" : "");
     if (st.trend) {
-      traces.push({ type: "scatter", mode: "lines", x: st.trend.line.map((p) => p[0]), y: st.trend.line.map((p) => p[1]),
-                    name: "Theil–Sen trend", line: { color: "#1d1f22", width: 2, dash: "dash" } });
       const t = st.trend;
-      $("trendSub").textContent = `trend ${t.pct_per_year > 0 ? "+" : ""}${t.pct_per_year}%/yr, Mann–Kendall ${pTxt(t.p_value)}`;
+      traces.push({ type: "scatter", mode: "lines", x: t.line.map((p) => p[0]), y: t.line.map((p) => p[1]),
+                    name: `trend ${t.years[0]}–${t.years[1]}`, line: { color: "#1b1d21", width: 2, dash: "dash" } });
+      let txt = `trend ${sgn(t.pct_per_year)}${t.pct_per_year}%/yr (${pTxt(t.p_value)})`;
+      const v = st.trend_viirs_only;
+      if (v) {
+        traces.push({ type: "scatter", mode: "lines", x: v.line.map((p) => p[0]), y: v.line.map((p) => p[1]),
+                      name: `VIIRS-only trend ${v.years[0]}–${v.years[1]}`, line: { color: "#0072B2", width: 2, dash: "dot" } });
+        txt += ` · VIIRS only ${sgn(v.pct_per_year)}${v.pct_per_year}%/yr (${pTxt(v.p_value)})`;
+      }
+      $("trendSub").textContent = `${txt}, Theil–Sen + Mann–Kendall`;
     } else $("trendSub").textContent = "";
     Plotly.react("annual", traces, {
-      ...baseLayout, legend: { orientation: "h", y: 1.12, x: 0 }, margin: { ...baseLayout.margin, t: 30 },
-      yaxis: { title: { text: "fires / year (VIIRS-equivalent)" }, gridcolor: "#eee", rangemode: "tozero" },
+      ...baseLayout, barmode: "overlay", legend: { orientation: "h", y: -0.16, x: 0, font: { size: 11 } },
+      margin: { ...baseLayout.margin, t: 14, b: 96 },
+      yaxis: { title: { text: "detections / year (VIIRS-equivalent)" }, gridcolor: "#eee", rangemode: "tozero" },
       xaxis: { dtick: 2 },
     }, plotCfg("annual_totals"));
   }
@@ -211,11 +232,13 @@
     const s = an.selected;
     const trendTxt = t ? `<span class="${t.slope_per_year > 0 ? "up" : "down"}">${t.pct_per_year > 0 ? "▲ +" : "▼ "}${t.pct_per_year}%</span>` : "–";
     const items = [
-      { k: "Fires in period (harmonized)", v: fmt(st.harmonized_total), s: `${fmt(rawTotal)} raw detections, all sensors` },
-      { k: "Peak month", v: topM ? `${MONTHS[+topM.period.slice(5) - 1]} ${topM.period.slice(0, 4)}` : "–", s: topM ? `${fmt(topM.value)} fires` : "" },
-      { k: "Peak year", v: topY ? topY.year : "–", s: topY ? `${fmt(topY.value)} fires` : "" },
+      { k: "Hotspot detections (harmonized)", v: fmt(st.harmonized_total), s: `${fmt(rawTotal)} raw detections, all sensors` },
+      { k: "Peak month", v: topM ? `${MONTHS[+topM.period.slice(5) - 1]} ${topM.period.slice(0, 4)}` : "–", s: topM ? `${fmt(topM.value)} detections` : "" },
+      { k: "Peak year", v: topY ? topY.year : "–", s: topY ? `${fmt(topY.value)} detections` : "" },
       { k: "Fire season peak", v: st.peak_calendar_month || "–", s: "highest mean calendar month" },
-      { k: "Trend per year", v: trendTxt, s: t ? `${pTxt(t.p_value)} (${t.years[0]}–${t.years[1]})` : "" },
+      { k: "Trend per year", v: trendTxt,
+        s: t ? `${pTxt(t.p_value)} (${t.years[0]}–${t.years[1]})` +
+          (st.trend_viirs_only ? `<br>VIIRS only: ${st.trend_viirs_only.pct_per_year > 0 ? "+" : ""}${st.trend_viirs_only.pct_per_year}%, ${pTxt(st.trend_viirs_only.p_value)}` : "") : "" },
     ];
     $("kpis").innerHTML = items.map((i) => `<div class="kpi"><div class="k">${i.k}</div><div class="v">${i.v}</div><div class="s">${i.s}</div></div>`).join("");
   }

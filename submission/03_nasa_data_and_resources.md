@@ -11,7 +11,7 @@
 | LANCE (Land, Atmosphere Near real-time Capability for EOS) | Near-real-time processing behind the NRT products | https://www.earthdata.nasa.gov/data/tools/lance |
 | FIRMS documentation and attribute descriptions (confidence, type) | Filtering rules | https://www.earthdata.nasa.gov/data/tools/firms/faq |
 
-Other (non-NASA) resources: Natural Earth 1:10m admin-1 boundaries (public domain), CARTO /
+Other (non-NASA) resources: Natural Earth 1:10m admin-1 boundaries (public domain), Esri World Light Gray Canvas /
 OpenStreetMap base map tiles.
 
 Acknowledgement: We acknowledge the use of data and imagery from NASA's Fire Information for Resource
